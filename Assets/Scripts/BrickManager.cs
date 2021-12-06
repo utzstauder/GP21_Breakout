@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BrickManager : MonoBehaviour
 {
@@ -72,6 +73,20 @@ public class BrickManager : MonoBehaviour
         if (destroyedBricks >= rows * columns)
         {
             Debug.Log("GAME WON!");
+            LoadNextLevel();
         }
+    }
+
+    private void LoadNextLevel()
+    {
+        int buildIndex = SceneManager.GetActiveScene().buildIndex;
+
+        buildIndex++;
+        if (buildIndex >= SceneManager.sceneCountInBuildSettings)
+        {
+            buildIndex = 0;
+        }
+
+        SceneManager.LoadScene(buildIndex);
     }
 }
