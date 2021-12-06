@@ -39,7 +39,7 @@ public class Ball : MonoBehaviour
             float ballWidth = transform.localScale.x;
             float normalizedOffset = xOffset / ((racketWidth + ballWidth) / 2);
 
-            Debug.Log(normalizedOffset);
+            // Debug.Log(normalizedOffset);
 
             float currentSpeed = rigidbody2D.velocity.magnitude;
             
