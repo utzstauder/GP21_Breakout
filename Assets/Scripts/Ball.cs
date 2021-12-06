@@ -6,6 +6,7 @@ public class Ball : MonoBehaviour
     private Vector3 initialPosition;
 
     public float initialSpeed = 20f;
+    public float racketDeviationStrength = 5f;
 
     private void Awake()
     {
@@ -24,6 +25,30 @@ public class Ball : MonoBehaviour
         rigidbody2D.position = initialPosition;
 
         LaunchBall();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.CompareTag("Player") == true)
+        {
+            float xBall = transform.position.x;
+            float xRacket = collision.collider.transform.position.x;
+            float xOffset = xBall - xRacket;
+
+            float racketWidth = collision.collider.transform.localScale.x;
+            float ballWidth = transform.localScale.x;
+            float normalizedOffset = xOffset / ((racketWidth + ballWidth) / 2);
+
+            Debug.Log(normalizedOffset);
+
+            float currentSpeed = rigidbody2D.velocity.magnitude;
+            
+            Vector2 newDirection = rigidbody2D.velocity;
+
+            newDirection.x += normalizedOffset * racketDeviationStrength;
+
+            rigidbody2D.velocity = newDirection.normalized * currentSpeed;
+        }
     }
 
     private void LaunchBall()
